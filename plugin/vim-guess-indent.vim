@@ -17,6 +17,7 @@ let s:dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
 function! GuessIndent()
   if &filetype == '' || &filetype == 'help'
+    call GuessIndent_do_nothing()
     return
   endif
   " Need to override some options when I want to
@@ -60,7 +61,7 @@ function! GuessIndent_log(message)
 endfunction
 
 function! GuessIndent_get_log()
-  return exists('b:vim_guess_indent_log') ? b:vim_guess_indent_log : ''
+  return exists('b:vim_guess_indent_log') ? b:vim_guess_indent_log : '-'
 endfunction
 
 " TODO: FIXME: Side effect
