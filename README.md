@@ -10,20 +10,20 @@ its content.
 
 0. Manually
 
-Put the two files `simple-guess.py` and `vim-guess-indent.vim` into any one
-`plugin/` directory withing your runtimepaths.
+    Put the two files `simple-guess.py` and `vim-guess-indent.vim` into any one
+    `plugin/` directory withing your runtimepaths.
 
 1. With pathogen
 
-    git clone https://github.com/concise/vim-guess-indent ~/.vim/bundle/vim-guess-indent
+        git clone https://github.com/concise/vim-guess-indent ~/.vim/bundle/vim-guess-indent
 
 2. With Vundle
 
-    Plugin 'concise/vim-guess-indent'
+        Plugin 'concise/vim-guess-indent'
 
 3. With Neobundle
 
-    NeoBundle 'concise/vim-guess-indent'
+        NeoBundle 'concise/vim-guess-indent'
 
 
 
