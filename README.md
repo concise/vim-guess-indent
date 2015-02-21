@@ -11,7 +11,7 @@ its content.
 0. Manually
 
     Put the two files `simple-guess.py` and `vim-guess-indent.vim` into any one
-    `plugin/` directory withing your runtimepaths.
+    `plugin/` directory within your runtimepaths.
 
 1. With pathogen
 
