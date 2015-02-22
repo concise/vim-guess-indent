@@ -34,7 +34,8 @@ guess.  I'd like to refactor it into a pure VimL script to be faster.
 
 1. With pathogen
 
-        git clone https://github.com/concise/vim-guess-indent ~/.vim/bundle/vim-guess-indent
+        cd ~/.vim/bundle/
+        git clone https://github.com/concise/vim-guess-indent
 
 2. With Vundle
 
