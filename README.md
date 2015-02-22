@@ -5,9 +5,6 @@ This is a Vim plugin that helps you determine which values of 'shiftwidth' and
 its content.
 
 
------
-
-
 ## Watch me code this project
 
 1. [Episode 01](https://www.youtube.com/watch?v=F0gc05Jq1f0)
@@ -17,12 +14,6 @@ its content.
 
 This plugin is still at alpha quality, and using it might break some parts of
 your Vim.
-
-This plugin has a side effect that it will modify the status bar to indicate
-the result of its guess.
-
-This plugin currently uses an external program (a Python script) to perform the
-guess.  I'd like to refactor it into a pure VimL script to be faster.
 
 
 ## How to install
@@ -44,3 +35,15 @@ guess.  I'd like to refactor it into a pure VimL script to be faster.
 3. With Neobundle
 
         NeoBundle 'concise/vim-guess-indent'
+
+## TODO
+
+This plugin has a side effect that it will modify the status bar to indicate
+the result of its guess.
+
+This plugin currently uses an external program (a Python script) to perform the
+guess.  I'd like to refactor it into a pure VimL script to be faster.
+
+I should add callback function hooks so that the user can define some function
+that can change 'listchar' option based on which indentation should be used for
+the current buffer.

@@ -46,6 +46,8 @@ endfunction
 function! GuessIndent_do_tab_indent(...)
   call GuessIndent_log('TAB')
   execute 'setlocal noexpandtab'
+  execute 'setlocal shiftwidth=' . &tabstop
+  execute 'setlocal softtabstop=' . &tabstop
 endfunction
 
 function! GuessIndent_do_space_indent(indent_step)
