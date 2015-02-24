@@ -1,12 +1,33 @@
-" vim-guess-indent.vim
-"
-"       Guess values for 'shiftwidth' and 'expandtab' automatically
-"
+function! s:before_guess_hook()
+endfunction
 
-if exists('g:vim_guess_indent_loaded') || v:version < 703 || &compatible
-  finish
-endif
-let g:vim_guess_indent_loaded = 1
+function! s:after_guess_hook()
+endfunction
+
+let s:default_options = {
+      \'before_guess_hook': function('s:before_guess_hook'),
+      \'after_guess_hook': function('s:after_guess_hook')
+      \}
+
+function! s:get_option(key)
+  if !has_key(s:default_options, a:key)
+    throw 'KEY_NOT_FOUND'
+  elseif !exists('g:guess_indent_options')
+    return s:default_options[a:key]
+  elseif type(g:guess_indent_options) != type({})
+    return s:default_options[a:key]
+  elseif !has_key(g:guess_indent_options, a:key)
+    return s:default_options[a:key]
+  elseif type(g:guess_indent_options[a:key]) != type(s:default_options[a:key])
+    return s:default_options[a:key]
+  else
+    return g:guess_indent_options[a:key]
+  endif
+endfunction
+
+let TEST = function('s:get_option')
+
+
 
 augroup GuessIndent_DetectAfterFileType
   autocmd!
@@ -20,7 +41,6 @@ function! GuessIndent()
     call GuessIndent_do_nothing()
     return
   endif
-  " Need to override some options when I want to
   let program = s:dir . '/simple-guess.py'
   let filename = expand('%')
   let result = system('2>/dev/null ' . program . ' ' .  shellescape(filename))
@@ -58,13 +78,53 @@ function! GuessIndent_do_space_indent(indent_step)
 endfunction
 
 function! GuessIndent_log(message)
-  " Maybe add the guesser status to status line or status bar
-  let b:vim_guess_indent_log = a:message
+  let b:guess_indent_log = a:message
 endfunction
 
 function! GuessIndent_get_log()
-  return exists('b:vim_guess_indent_log') ? b:vim_guess_indent_log : '-'
+  return exists('b:guess_indent_log') ? b:guess_indent_log : '-'
 endfunction
 
-" TODO: FIXME: Side effect
+
+
+"
+" Because I am lazy, I just change the "statusline" setting here.  This side
+" effect should be removed in the future.  It would be nice to let it shows a
+" notify message in the last line for just a few second.  Need to provide a
+" way for the user to customize some callback hooks and options for this
+" plugin.
+"
 set statusline=%<%f\ %h%m%r%=%{GuessIndent_get_log()}
+
+"
+" About the tab annoyance.  I should use "listchars" for only tab rendering,
+" because Vim does not let me have local setting of "listchars" for each
+" buffer or each window and the highlighting is not so customizable and sucks
+" so much...  If "listchars" is actually used only for tab rendering, then
+" here I only need to toggle "list" option, or keep "list" on and switch
+" "listchars" between an empty string and a string value "tab:▸ ".
+"
+" On no, "listchars" is global.  So I cannot have two different buffer, one
+" with Tab indentation and nother with space indentation, having different
+" visualization of the tab characters while keep the "list" option on.
+"
+" Also, even when I use the Tab indentation, I would love to see those
+" non-beginning-of-line tab characters...  Anyway I think ":se list lcs=>-"
+" will work for most cases, though it is not that beautiful.
+"
+
+"
+" For trailing-whitespace annoyance, I should come up with another mini plugin
+" to handle that.  So does the more-than-80-column annoyance.
+"
+
+command! -nargs=? TAT call _listchars_value_without_tab()
+function! _listchars_value_without_tab()
+  let in = &listchars
+
+  let tmplist = split(in, ',')
+  call filter(tmplist, 'stridx(v:val,"tab")!=0')
+  let out = join(tmplist, ',')
+
+  return out
+endfunction
