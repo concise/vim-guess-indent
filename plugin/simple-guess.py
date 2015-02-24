@@ -28,8 +28,8 @@ def main():
     buffer_descriptor = get_buffer_descriptor(filecontent_lines)
     guessers = [
             (1, tab_indent_guesser(buffer_descriptor)),
-            (4, space_indent_guesser(buffer_descriptor, CODING_STYLE=4)),
-            (2, space_indent_guesser(buffer_descriptor, CODING_STYLE=2)),
+            (2, space_indent_guesser(buffer_descriptor, CODING_STYLE=2, INDENT_NG_THRESHOLD=0.2)),
+            (4, space_indent_guesser(buffer_descriptor, CODING_STYLE=4, INDENT_NG_THRESHOLD=0.3)),
             (8, space_indent_guesser(buffer_descriptor, CODING_STYLE=8)),
             (3, space_indent_guesser(buffer_descriptor, CODING_STYLE=3)),
             (0, messedup_guesser(buffer_descriptor)),
