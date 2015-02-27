@@ -31,13 +31,13 @@ let TEST = function('s:get_option')
 
 augroup GuessIndent_DetectAfterFileType
   autocmd!
-  autocmd BufWritePost,FileType * call GuessIndent()
+  autocmd BufReadPost,BufWritePost,FileType * call GuessIndent()
 augroup END
 
 let s:dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
 function! GuessIndent()
-  if &filetype == '' || &filetype == 'help'
+  if &filetype == 'help'
     call GuessIndent_do_nothing()
     return
   endif
